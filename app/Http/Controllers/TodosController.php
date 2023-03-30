@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\Category;
 
 class TodosController extends Controller
 {
@@ -21,13 +22,15 @@ class TodosController extends Controller
         ]);
         $todo = new Todo;
         $todo->title = $request->title;
+        $todo->category_id = $request->category_id;
         $todo->save();
         return redirect()->route('todos')->with('success','Tarea creada correctamente');
     }
 
     public function index(){
         $todos = Todo::All();
-        return view('todos.index',['todos'=>$todos]);
+        $categories = Category::All();
+        return view('todos.index',['todos'=>$todos, 'categories'=>$categories]);
     }
 
     public function show($id){
